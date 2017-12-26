@@ -1,0 +1,39 @@
+Q : What are the advantages and disadvantages of each of the two scheduling policies? Also, give the advantages and disadvantages of the round robin scheduling policy originally implemented in Xinu.
+
+Ans :
+a) Exponential Distribution scheduler:
+Advantages: 
+1) No starvation as the processes are scheduled randomly.
+2) Easier to implement as there are very few edge cases to handle.
+
+Disadvantages: 
+1) The probability of processes with higher priorities getting scheduled is very less.(close to zero).
+
+
+b) Linux-like scheduler:
+Advantages:
+1) Unlike default XINU and exponential distribution schedulers, the processes which yield the CPU during I/O requests (or) sleep will be given fair chance.
+2) Each and every process is definitely scheduled to run in every epoch atleast once based on the goodness.
+3) The priority of a process is increased in the next epoch and is allowed to run for more time if a process is unable to use its time quantum a particular epoch.
+
+Disadvantages:
+1) Implementation is tougher than that of XINU and exponential distribution scheduler.
+2) Time complexity is O(number of process in the ready queue) as we have to compute the goodness for each process everytime "resched" is called. Hence, this scheduler uses up more CPU time to schedule a new process.
+
+
+c) Default XINU scheduler:
+Advantages:
+1) Processes with higher priority are given more preference and are scheduled first till they finish their execution.
+2) Easier to implement and faster as there are no computations involved.
+
+Disadvantages:
+1) Processes with lower priorities are starved. They don't get scheduled as long as there is a process with higher priority in the queue.
+
+
+
+Q : Describe the way each of the schedulers affects the NULL process.
+
+Ans : 
+1) Exponential Distribution scheduler: NULL process is scheduled if and only if there is no other process in the ready queue.
+2) Linux-Like Scheduler: If there's no other process(i.e., all the processes have either completed their time quantum in that epoch or have yielded the CPU for an I/O, etc.,) in a particular epoch, then the null process is scheduled.
+3) Default XINU Scheduler: NULL process is scheduled if and only if there is no other process in the ready queue.
